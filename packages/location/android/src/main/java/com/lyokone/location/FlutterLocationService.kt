@@ -53,7 +53,9 @@ class BackgroundNotification(
                 ?.setPackage(null)
                 ?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
-        return if (intent != null) {
+        return if (intent != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE)
+        } else if (intent != null) {
             PendingIntent.getActivity(context, 0, intent, 0)
         } else {
             null
